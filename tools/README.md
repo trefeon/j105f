@@ -12,6 +12,9 @@ boot anything — it produces and inspects the images.
 | `dev/make-splash.py` | Regenerate the 480×800 splash assets (`android/device/samsung/j1minilte/splash/`). |
 | `initramfs/build_initramfs.sh` | Download (sha512-pinned), build static busybox 1.36.1 and pack `linux/initramfs/init` into `out/ramdisk.cpio.gz`. |
 | `kernel/make_linux_defconfig.sh` | Regenerate `kernel/arch/arm/configs/j1minilte_linux_defconfig` from the vendor defconfig using the kernel's own `scripts/config`. |
+| `local/build-kernel.sh` | Full local Linux build (toolchain fetch → zImage → initramfs → dt.img gate → boot.img → verify). Linux host / WSL2. |
+| `local/build-recovery.sh` | Full local recovery build (twrp-6.0 sync → device+kernel copy → recoveryimage → splash → 16 MiB gate). Linux host / WSL2. |
 
-CI entry points are `.github/workflows/recovery.yml` and `.github/workflows/kernel.yml`; both call
-these scripts rather than embedding logic.
+CI entry points are `.github/workflows/recovery.yml` and `.github/workflows/kernel.yml` (manual
+`workflow_dispatch` only); they mirror `local/build-*.sh` rather than sharing code, so a local green
+build and a CI green build are comparable but not identical.

@@ -1,15 +1,6 @@
 name: Linux boot.img (j1minilte)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'kernel/**'
-      - 'linux/**'
-      - 'device/dtb/**'
-      - 'tools/initramfs/**'
-      - 'tools/bootimg/**'
-      - '.github/workflows/kernel.yml'
   workflow_dispatch:
 
 jobs:

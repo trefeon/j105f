@@ -31,24 +31,32 @@ third-party reference clones never enter Git (see `.gitignore`).
 
 ## Build and verify
 
-Everything that ships is built by CI; local builds are optional.
-
-- Recovery: push touching `android/`, `kernel/` or `tools/bootimg/` runs `.github/workflows/recovery.yml`
-  (AOSP 6.0 + TWRP 3.7.0_9 tree, Python 2.7, JDK 8, `arm-eabi-4.8`), applies the custom splash,
-  enforces the real 16,777,216-byte recovery partition, publishes `recovery.img` / `recovery.tar` /
-  `SHA256SUMS` / `BUILD_INFO.txt`.
-- Linux: push touching `kernel/`, `linux/`, `device/dtb/` or `tools/` runs `.github/workflows/kernel.yml`
-  (zImage → dt.img byte-exact vs `device/dtb/stock/` → busybox initramfs → `boot.img`), then fail-closed
-  verifies header geometry, size and the embedded dt.img.
-
-Host-side tooling:
+Builds are **local-first** (`tools/local/`), on a Linux host — WSL2 Ubuntu 22.04 matches the
+workstation setup; Windows itself cannot build AOSP or a 3.10 kernel. The GitHub workflows exist for
+reproducibility but are `workflow_dispatch` only: pushes do not consume CI minutes.
 
 ```sh
-python3 tools/bootimg/parse_bootimg.py <boot|recovery>.img            # inspect geometry
-python3 tools/bootimg/patch_splash.py recovery.img android/device/samsung/j1minilte/splash --out out/recovery.img
-bash tools/initramfs/build_initramfs.sh                               # out/ramdisk.cpio.gz
-sh   tools/kernel/make_linux_defconfig.sh                             # regenerate the Linux defconfig
+bash tools/local/build-kernel.sh            # zImage -> dt.img (byte-gated) -> initramfs -> boot.img
+bash tools/local/build-recovery.sh         # AOSP 6.0 sync -> TWRP recoveryimage -> splash patch
 ```
+
+What the scripts do:
+
+- Kernel: fetch `arm-eabi-4.8` (same prebuilt as CI) → `j1minilte_linux_defconfig` → zImage → busybox
+  1.36.1 static initramfs → `dt.img` rebuilt from `device/dtb/stock/` and byte-compared → `boot.img`
+  (mkbootimg v0 + `SEANDROIDENFORCE`) → parse-and-size verify, checksums in `out/`.
+- Recovery: sync the omni `twrp-6.0` manifest → copy `android/device/samsung/j1minilte` and `kernel/`
+  into the checkout → `lunch omni_j1minilte-eng` → `make recoveryimage` → splash patch → 16 MiB gate.
+
+Host tooling (works on Windows, no Linux needed):
+
+```sh
+python3 tools/bootimg/parse_bootimg.py <boot|recovery>.img <out-dir>   # inspect geometry
+python3 tools/bootimg/patch_splash.py recovery.img android/device/samsung/j1minilte/splash --out out/recovery.img
+python3 tools/bootimg/pack_dtimg.py --verify-dtb device/dtb/stock device/dtb/stock/dtb_0?.dtb --out out/dt.img
+```
+
+CI (manual only): `.github/workflows/recovery.yml`, `.github/workflows/kernel.yml`.
 
 ## Device safety rules
 
