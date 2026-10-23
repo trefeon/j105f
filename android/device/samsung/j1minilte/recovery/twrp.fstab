@@ -1,0 +1,12 @@
+# mount point	fstype    device    	[device2]
+
+/dev/block/platform/sdio_emmc/by-name/KERNEL       /boot        emmc            default              recoveryonly
+/dev/block/platform/sdio_emmc/by-name/SYSTEM       /system      ext4            default              recoveryonly
+/dev/block/platform/sdio_emmc/by-name/userdata     /data        ext4            default              wait,length=-16384
+/dev/block/platform/sdio_emmc/by-name/CACHE        /cache       ext4            default              recoveryonly
+/efs         ext4        /dev/block/platform/sdio_emmc/by-name/efs    flags=display="EFS";backup=1
+/external_sd    vfat      /dev/block/mmcblk1p1                                 flags=display="Micro SDcard";storage;wipeingui;removable
+/usb-otg        vfat      /dev/block/sda1         /dev/block/sda               flags=display="USB-OTG";storage;wipeingui;removable
+/preload     ext4        /dev/block/platform/sdio_emmc/by-name/HIDDEN flags=display="Preload";wipeingui;backup=1
+/productinfo ext4        /dev/block/platform/sdio_emmc/by-name/prodnv flags=display="Product Info";backup=1
+/dev/block/platform/sdio_emmc/by-name/RECOVERY     /recovery    emmc            default              recoveryonly

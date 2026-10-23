@@ -1,0 +1,42 @@
+# Third-party reference material (cloned repos, re-clonable upstream)
+reference/
+
+# Downloaded tool binaries (Google platform-tools = adb/fastboot)
+tools/platform-tools/
+
+# Raw device partition images — PRIVATE (EFS contains device identifiers,
+# modem is proprietary firmware). Kept local + on the phone's microSD only.
+device/evidence/stock-backup/*.img
+device/evidence/stock-backup/*.zImage
+device/evidence/stock-backup/*.cpio.gz
+
+# TWRP full backups pulled off the device — PRIVATE (userdata, personal data)
+device/evidence/stock-backup/TWRP/
+
+# Full device dumps (vendor blobs, system images) — extracted locally on demand
+device/dumps/
+
+# Downloaded CI build artifacts (reproducible via GitHub Actions)
+device/evidence/build-artifacts/
+
+# Build outputs
+out/
+build/
+kernel/.config
+kernel/.config.old
+kernel/arch/arm/boot/zImage
+kernel/arch/arm/boot/dts/*.dtb
+kernel/arch/arm/boot/dts/*.dtb.tmp
+*.o
+*.ko
+*.cmd
+*.mod.c
+*.log
+
+# Host junk
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+.lean-ctx/
+.ruff_cache/

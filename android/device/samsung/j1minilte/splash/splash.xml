@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<recovery>
+	<details>
+		<resolution width="480" height="800"/>
+		<author>Project J105F</author>
+		<title>J105F custom TWRP</title>
+		<description>Project J105F custom TWRP boot splash</description>
+	</details>
+
+	<resources>
+		<font name="font_s" filename="RobotoCondensed-Regular.ttf" size="18"/>
+		<image name="splashlogo" filename="splashlogo" retainaspect="0"/>
+	</resources>
+
+	<variables>
+		<variable name="screen_width" value="480"/>
+		<variable name="screen_height" value="800"/>
+		<variable name="background_color" value="#12141A"/>
+		<variable name="text_color" value="#A0A8B4"/>
+	</variables>
+
+	<pages>
+		<page name="splash">
+			<background color="%background_color%"/>
+
+			<!-- full-bleed 480x800 splashlogo.png, centered -->
+			<image>
+				<image resource="splashlogo"/>
+				<placement x="240" y="400" placement="4"/>
+			</image>
+
+			<!-- provenance: source commit / device version at the bottom -->
+			<text color="%text_color%">
+				<font resource="font_s"/>
+				<placement x="240" y="772" placement="5"/>
+				<text>%tw_version%</text>
+			</text>
+		</page>
+	</pages>
+</recovery>

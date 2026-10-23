@@ -1,0 +1,158 @@
+name: Recovery CI (TWRP, j1minilte)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'android/**'
+      - 'kernel/**'
+      - 'tools/bootimg/**'
+      - '.github/workflows/recovery.yml'
+
+jobs:
+  build:
+    name: TWRP Build
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build dependencies (AOSP 6.0-era toolchain on Ubuntu 22.04)
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev \
+            gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses-dev x11proto-core-dev \
+            libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip \
+            fontconfig lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev \
+            lzma ncftp liblz4-tool python3 ccache bc software-properties-common \
+            libncurses5 libtinfo5
+
+      - name: Install legacy Python 2.7 from source (AOSP 6.0 build scripts require it)
+        run: |
+          # No PPA carries python2 for jammy (deadsnakes: needs libssl<3, not built);
+          # jxu/python2 was removed. Build 2.7.18 from python.org instead.
+          cd /tmp
+          curl -fsSLO https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+          tar xzf Python-2.7.18.tgz
+          cd Python-2.7.18
+          ./configure --prefix=/usr/local/python2.7 > /tmp/py2-config.log 2>&1 || { tail -40 /tmp/py2-config.log; exit 1; }
+          make -j$(nproc --all) > /tmp/py2-make.log 2>&1 || { tail -40 /tmp/py2-make.log; exit 1; }
+          sudo make install > /dev/null 2>&1
+          sudo ln -sf /usr/local/python2.7/bin/python2.7 /usr/local/bin/python
+          sudo ln -sf /usr/local/python2.7/bin/python2.7 /usr/local/bin/python2
+          python --version
+          python2 --version
+
+      - name: Install JDK 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+
+      - name: Install repo tool
+        run: |
+          mkdir -p ~/.bin
+          curl -s https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+          chmod a+x ~/.bin/repo
+          sudo ln -sf ~/.bin/repo /usr/bin/repo
+
+      - name: Set swap space (dynamic, disk-aware)
+        run: |
+          FREE_GB=$(df --output=avail -BG / | tail -1 | tr -dc '0-9')
+          if [ "$FREE_GB" -gt 14 ]; then SWAP_GB=12; else SWAP_GB=$((FREE_GB - 3)); fi
+          echo "free disk: ${FREE_GB}G -> swap: ${SWAP_GB}G"
+          # runner images ship with an active /swapfile — replace it
+          if [ -f /swapfile ]; then sudo swapoff /swapfile 2>/dev/null || true; sudo rm -f /swapfile; fi
+          sudo fallocate -l "${SWAP_GB}G" /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          free -h | head -2
+
+      - name: Sync AOSP base (omni twrp-6.0 manifest)
+        run: |
+          mkdir -p ~/TWRP
+          cd ~/TWRP
+          python3 ~/.bin/repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-6.0
+          python3 ~/.bin/repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all)
+
+      - name: Install device tree + kernel from this repo (committed code)
+        run: |
+          mkdir -p ~/TWRP/device/samsung ~/TWRP/kernel/samsung
+          cp -r $GITHUB_WORKSPACE/android/device/samsung/j1minilte ~/TWRP/device/samsung/
+          cp -r $GITHUB_WORKSPACE/kernel ~/TWRP/kernel/samsung/j1minilte
+          ls ~/TWRP/device/samsung/j1minilte/BoardConfig.mk ~/TWRP/kernel/samsung/j1minilte/Makefile
+
+      - name: Toolchain (arm-eabi-4.8, external binary prebuilt)
+        run: |
+          sudo mkdir -p /opt/toolchains
+          (git clone --depth 1 --branch android-5.1.1_r38 --single-branch \
+             https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8 \
+             /opt/toolchains/arm-eabi-4.8) \
+          || (git clone --depth 1 --branch android-5.1.1_r38 --single-branch \
+             https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-eabi-4.8 \
+             /opt/toolchains/arm-eabi-4.8)
+          ls /opt/toolchains/arm-eabi-4.8/bin/arm-eabi-gcc
+
+      - name: Build TWRP
+        run: |
+          cd ~/TWRP
+          export ALLOW_MISSING_DEPENDENCIES=true
+          export LC_ALL=C
+          source build/envsetup.sh
+          lunch omni_j1minilte-eng
+          make -j$(nproc --all) recoveryimage
+
+      - name: Patch custom splash (D3)
+        run: |
+          cd ~/TWRP/out/target/product/j1minilte
+          python3 $GITHUB_WORKSPACE/tools/bootimg/patch_splash.py \
+            recovery.img \
+            $GITHUB_WORKSPACE/android/device/samsung/j1minilte/splash \
+            --out recovery.img
+          ls -la recovery.img
+
+      - name: Package Odin tar
+        run: |
+          cd ~/TWRP/out/target/product/j1minilte
+          tar -cf recovery.tar recovery.img
+          ls -la recovery.*
+
+      - name: Validate size, pin manifest, publish checksums + build metadata
+        run: |
+          cd ~/TWRP/out/target/product/j1minilte
+          IMG_SIZE=$(stat -c%s recovery.img)
+          echo "recovery.img size: $IMG_SIZE bytes (limit: 16777216)"
+          # Fail closed at >= limit (16 MiB per /proc/partitions; ROADMAP C4/C1)
+          if [ "$IMG_SIZE" -ge 16777216 ]; then
+            echo "::error::recovery.img ($IMG_SIZE bytes) exceeds the 16 MiB recovery partition"
+            exit 1
+          fi
+          sha256sum recovery.img recovery.tar > SHA256SUMS
+          python3 ~/.bin/repo manifest -r -o /tmp/manifest-pinned.xml
+          {
+            echo "source_commit: $GITHUB_SHA"
+            echo "built_at: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "runner: ubuntu-22.04"
+            echo "manifest: minimal-manifest-twrp/platform_manifest_twrp_omni @ twrp-6.0 (pinned snapshot in manifest-pinned.xml)"
+            echo "toolchain: arm-eabi-4.8 @ android-5.1.1_r38 (googlesource, LineageOS mirror fallback)"
+            echo "kernel: 3.10.65 j1minilte_defconfig (committed at kernel/ in this repo)"
+            echo "device: j1minilte sc8830 (committed at android/device/samsung/j1minilte in this repo)"
+            echo "recovery_partition_size: 16777216"
+            echo "board_mkbootimg_args: --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt prebuilt/dtb"
+          } > BUILD_INFO.txt
+          cat SHA256SUMS BUILD_INFO.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: twrp-j1minilte
+          path: |
+            /home/runner/TWRP/out/target/product/j1minilte/recovery.img
+            /home/runner/TWRP/out/target/product/j1minilte/recovery.tar
+            /home/runner/TWRP/out/target/product/j1minilte/SHA256SUMS
+            /home/runner/TWRP/out/target/product/j1minilte/BUILD_INFO.txt
+            /tmp/manifest-pinned.xml
+          if-no-files-found: error
