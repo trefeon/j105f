@@ -11,6 +11,13 @@ Single repository for bringing a 2016 `j1minilte` unit back into service on two 
 Device facts, evidence and the reasoning behind these targets: `docs/device/identity.md`,
 `docs/adr/0002-os-track.md`.
 
+**Variant scope — 4G/LTE only.** This repository targets the **SM-J105F/DS** (`j1minilte`,
+**SC9830I LTE**, dual-SIM), verified from the unit's own `getprop`: `ro.chipname=SC9830I`,
+`ro.product.device=j1minilte`, `ro.multisim.simslotcount=2`, PDA `J105FXXS0ARD2`. The 3G siblings
+**SM-J105H/B** (`j1mini3g`, SC8830, `CONFIG_ARCH_SCX30G`) and **SM-J106** (`j1minivelte`) are different
+machines: their trees, ROMs and DTBs are reference material only — never a base, never flashed. Every
+flash task asserts `ro.product.device == j1minilte` first.
+
 ## Repository layout
 
 ```text

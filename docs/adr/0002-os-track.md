@@ -34,6 +34,10 @@
    `docs/plans/android-rom-port-plan.md`.
 3. **Track B (Linux)** targets **postmarketOS/Alpine on the vendor 3.10 kernel**, console + framebuffer
    + touch + storage + USB networking first, Xorg after. Plan: ROADMAP Stage H, `docs/plans/linux-port-plan.md`.
+   Only the *packaging shape* is inherited from the archived `samsung-j1mini3g` package (deviceinfo
+   fields, `heimdall-bootimg`, SPRD `dt.img`, `SEANDROIDENFORCE`, sparse Samsung format); kernel,
+   config and DTBs are this unit's **LTE SC9830I** ones in `kernel/` and `device/dtb/stock/`.
+   The 3G sibling's kernel config (`SCX30G`) is never used.
 4. **Both tracks share one kernel tree** (`kernel/`) with two defconfigs, and one recovery device tree.
 5. **No version chasing without evidence:** a milestone is only claimed with a boot log from this unit.
 

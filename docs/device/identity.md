@@ -5,7 +5,7 @@ in `device/evidence/` (ADB/TWRP sessions, 2026-08-12), from the stock firmware/d
 vendor kernel source. Where a claim is inferred rather than observed it says so.
 
 **Model:** Samsung Galaxy J1 Mini 4G — **SM-J105F/DS**, `j1minilte` / `j1miniltexx`, CSC **XID**
-(Indonesia), dual-SIM DSDS.
+(Indonesia), dual-SIM DSDS. **This is the only variant this repository supports, builds for or flashes.**
 
 ## Identity
 
