@@ -21,7 +21,7 @@
 |---|---|
 | **A — Custom Android ROM (LineageOS)** | **Chosen (primary).** Android 7.1.2 is the highest any public build reached for this exact model (unofficial 2022 LineageOS 14.1, link now dead); Android 8.1 is the source-only ceiling (sharkls 15.1 trees boot on the same-SoC J3, never built for j1minilte). Android 9+ impossible. |
 | **B — postmarketOS / Alpine Linux on the 3.10 vendor kernel** | **Chosen (parallel track).** The only realistic "full Linux": Alpine userspace, console + fbdev first. pmOS's `samsung-j1mini3g` port — **archived 2026-06-22**, kernel 3.10.106 fork, wiki status *booting=yes* with screen/touch/USB-net working, `flash_rootfs` failing at 17 % (`flash_kernel` works; `--android-recovery-zip` fallback) — is a recipe reference; its kernel is `SCX30G`, not this unit. A `samsung-j1minilte` wiki page exists with `bootimg`/`qcdt` facts but **no merged device/kernel package**. |
-| **C — mainline Linux (6.x)** | Rejected. No SCX35L support at all; would be a multi-year driver project. |
+| **C — mainline Linux (modern, 6.x/7.x)** | Rejected. No SCX35L support at all; would be a multi-year driver project. |
 | **D — Linux chroot on stock Android** (Termux/UserLAnd/LinuxDeploy/Droidspaces) | Not a goal, but kept as the zero-risk fallback if flashing is ever unsafe. Cannot replace the OS. |
 | **E — Halium / Ubuntu Touch** | Stretch only. Halium 7.1 was proven on the same platform (J3), but 1 GB RAM and the audio HAL make it a worse bet than B for the same effort. |
 
