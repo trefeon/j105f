@@ -34,7 +34,7 @@
 | 0.2 | Flash TWRP 3.0.3-0 (SM-J105) via Odin; **full backup → microSD**: EFS, BOOT, SYSTEM, DATA, CACHE | XDA 3545821; TWRP keeps `RECOVERY IS NOT SEAndroid...` warning — harmless | backup zips verified on PC |
 | 0.3 | Set up WSL2 Ubuntu 24.04; install `pmbootstrap` (pip); `pmbootstrap init` (own pmaports fork dir, arch=armv7, vendor=samsung) | pmbootstrap docs; keep default stable branch for first build | `pmbootstrap --version` ok |
 | 0.4 | Install **heimdall** on Windows; phone into Download Mode; `heimdall print-pit` → **PIT ground truth** (SYSTEM/userdata sizes!) | heimdall-frontend.net Windows build | PIT saved to repo `docs/` |
-| 0.5 | ~~Capture the user's stock BOOT image → extract DTBs~~ **DONE (2026-08-11):** boot/efs/recovery/modem raw images `dd`'d from TWRP → `device/evidence/stock-backup/`; **5 DTBs (`SP8835EB board`) extracted** → `.../stock-backup/dtb/` (SPRD dt.img format, 5 entries); these go into our kernel's `dt.img` | done via TWRP adb root shell | DTBs verified (FDT magic, sizes, board strings) |
+| 0.5 | ~~Capture the user's stock BOOT image → extract DTBs~~ **DONE (2026-08-11):** boot/efs/recovery/modem raw images `dd`'d from TWRP → `device/evidence/stock-backup/`; **5 DTBs (`SP8835EB board`) extracted** → `device/dtb/stock/` (SPRD dt.img format, 5 entries); these go into our kernel's `dt.img` | done via TWRP adb root shell | DTBs verified (FDT magic, sizes, board strings) |
 
 **Gate 0:** TWRP backup verified restorable + PIT captured + firmware/Odin in hand. **Brick risk is now ~0 (Odin + EFS backup).**
 

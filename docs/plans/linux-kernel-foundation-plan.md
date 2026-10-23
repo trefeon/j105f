@@ -64,7 +64,7 @@ Follow-up milestone (B2, pmOS-toolchain parity): apply the archived 7 patches **
 
 CI workflow `kernel/.github/workflows/kernel.yml` (mirror TWRP CI structure):
 - Steps: checkout → arm-eabi-4.8 download → `make ARCH=arm j1minilte_defconfig` → copy saved `.config` to artifact (FR-6) → `make ARCH=arm -j$(nproc) zImage` (+ modules off for milestone 1) → `dtbTool-sprd -s 2048 -o dt.img arch/arm/boot/dts/` (build dtbTool from `reference/docs/pmaports/main/dtbtool-sprd/APKBUILD` in CI if not prebuilt).
-- **DTB verification gate:** parse dt.img and byte-compare the 5 DTBs against `device/evidence/stock-backup/dtb/dtb_00..04.dtb` (same check as recovery CI — fail closed on mismatch).
+- **DTB verification gate:** parse dt.img and byte-compare the 5 DTBs against `device/dtb/stock/dtb_00..04.dtb` (same check as recovery CI — fail closed on mismatch).
 - Artifacts: `zImage`, `dt.img`, `.config`, `SHA256SUMS`, `BUILD_INFO.txt` (kernel commit, defconfig name, toolchain, built_at, cmdline).
 
 **Milestone M3.1:** kernel builds reproducibly in CI, DTBs byte-match stock, checksums published.

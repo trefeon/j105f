@@ -9,7 +9,7 @@ splash (TWRP 3.7.0_9 theme mechanism; the PNG is decoded by libpng and
 converted to the framebuffer pixel format at blit time — it never needs
 to match ABGR_8888). 8-bit RGB only: the decoder does not strip 16-bit.
 
-Usage:  python3 tools/make-splash.py
+Usage:  python3 tools/dev/make-splash.py
 """
 
 from PIL import Image, ImageDraw, ImageFont

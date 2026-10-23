@@ -356,7 +356,7 @@ Implements PRD FR-2, FR-3. This is what makes the image safe to hand to a human.
 
 **Entry conditions, all mandatory:** A2 rollback set exists and is checksummed · A3 geometry confirmed ·
 C1 size check green · the human is physically present and has explicitly approved this session.
-**Status 2026-08-11:** NOT STARTED — blocked on A2 (rollback images missing), C1 (16 MiB gate), and the human gate. E1's pre-flight (`python tools/parse_bootimg.py`) is ready to run.
+**Status 2026-08-11:** NOT STARTED — blocked on A2 (rollback images missing), C1 (16 MiB gate), and the human gate. E1's pre-flight (`python3 tools/bootimg/parse_bootimg.py`) is ready to run.
 
 #### E1 — Pre-flash verification
 - **Depends on:** D2, A2, C1
@@ -365,7 +365,7 @@ C1 size check green · the human is physically present and has explicitly approv
   `mmcblk0p21`. Write the exact flash command and the exact rollback command side by side, and have the human
   read both back.
 - **Accept:** Identity matches, header is sane, rollback command is verified correct.
-- **Verify:** `python tools/parse_bootimg.py <recovery.img>` output recorded in the log.
+- **Verify:** `python3 tools/bootimg/parse_bootimg.py <recovery.img> <out-dir>` output recorded in the log.
 - [ ] Done — pre-flight tooling ready (`tools/parse_bootimg.py` + kernel repo's `pack_bootimg.py`); local parse **recorded 2026-08-12** on the final image: pgsz 2048, kernel 5,146,640 B, ramdisk 6,408,655 B, DTB blob @ 0xb06800, 5× DTBs SP8835EB, sizes byte-identical to stock (`parsed-e1/`); **flash + rollback commands written side by side at `docs/delivery/e1-flash-commands.md` (2026-08-12, corrected 2026-08-14 to the gated HEAD image `799b5e10`)**; remaining: identity + partition assertions on the live device, then human walkthrough — unblocked now that A2 is done.
 
 #### E2 — Flash and first boot

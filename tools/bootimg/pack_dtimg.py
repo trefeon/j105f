@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build a Spreadtrum dt.img (SPRD table) the way dtbTool-sprd does.
 
-Inverse of the SPRD branch of tools/parse_bootimg.py. Format decoded from
+Inverse of the SPRD branch of tools/bootimg/parse_bootimg.py. Format decoded from
 the device ground truth (twrp prebuilt/dtb, 0x50800 bytes, dd'd from the
 phone; byte-identical to the dt.img section of the stock recovery image):
 

@@ -11,7 +11,7 @@ the same geometry (offsets, cmdline, dt.img, SEANDROIDENFORCE suffix if
 the original carried one).
 
 Usage:
-  python3 tools/patch_splash.py <recovery.img> <splash-dir> --out <img>
+  python3 tools/bootimg/patch_splash.py <recovery.img> <splash-dir> --out <img>
     <recovery.img>  built recovery image (unpacked in place if --out omitted)
     <splash-dir>    dir containing splash.xml + images/splashlogo.png
 Exit 1 on any mismatch; prints VERIFY PASS lines on success.
