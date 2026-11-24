@@ -1,5 +1,11 @@
 # Linux Port Plan — SM-J105F (samsung-j1minilte) — postmarketOS (Alpine Linux)
 
+> **2026-11-24 — 3G sources quarantined.** This is a historical plan. `j1mini3g` (SCX30G)
+> kernel/config/deviceinfo paths below no longer exist in `reference/`; they were moved to
+> `.reference_delete/` (gitignored). Only the recipe *shape* is retained in
+> `docs/research/lte-models.md` §5. Never use 3G material to build this LTE unit.
+
+
 > Superseded as an execution plan by `docs/delivery/ROADMAP.md`. Retained for reference detail only.
 
 **Goal:** Boot a real Linux distribution (postmarketOS / Alpine Linux) on the Samsung Galaxy J1 Mini SM-J105F, by **porting the archived pmOS `samsung-j1mini3g` port** (same SC8830 SoC, sibling model) and then **remaking it** into our own fork.

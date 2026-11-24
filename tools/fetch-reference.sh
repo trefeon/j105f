@@ -7,7 +7,9 @@
 # Design notes:
 # - Every entry is pinned to a commit SHA or a branch+HEAD recorded on 2026-10-23;
 #   LTE-model-only additions (see docs/research/lte-models.md) were verified 2026-11-24.
-#   Branch tips move; a mismatch is reported, never silently accepted.
+# - 3G/SCX30G material is deliberately EXCLUDED (quarantined in .reference_delete/,
+#   gitignored). Do not add j1mini3g sources here — see lte-models.md §6 hard rule.
+# - Branch tips move; a mismatch is reported, never silently accepted.
 # - Large trees use partial clone (--filter=blob:none) + sparse-checkout.
 # - Windows: `core.protectNTFS=false` is required for aux.c; the stock dump has one
 #   NTFS-invalid path (bootimg/01_dtbdump_@0<`.dtb) that is excluded from checkout.
@@ -106,8 +108,6 @@ mkdir -p "$REF"
 say "== postmarketOS/Nura recipes (sparse, pinned main HEAD 2026-10-23)"
 fetch_sparse "https://gitlab.postmarketos.org/postMarketOS/pmaports.git" \
   "$REF/pmaports" main c7940da7b44e934c103261d1f41a5559f4c4be8f \
-  device/archived/device-samsung-j1mini3g \
-  device/archived/linux-samsung-j1mini3g \
   main/dtbtool-sprd main/boot-deploy main/devicepkg-dev \
   main/mkbootimg-osm0sis main/msm-fb-refresher main/postmarketos-base \
   main/postmarketos-base-downstream main/postmarketos-mkinitfs \
@@ -136,8 +136,6 @@ fetch_shallow "https://github.com/djeman/android_kernel_samsung_sharkls.git" \
   "$REF/kernels/sharkls_cm141" cm-14.1 0502c3a5bb4de36a399ad075fe945761428a5a2c
 fetch_shallow "https://github.com/MayuriLabs/android_kernel_samsung_j1minilte.git" \
   "$REF/kernels/j1minilte_mayuri" master 5f4f03bd4899c988d33302b0d7543ff8a0694996
-fetch_commit "https://github.com/IKGapirov/android_kernel_samsung_j1mini3g.git" \
-  "$REF/kernels/j1mini3g_ikgapirov" 6a377f7c43a84b578df39300dcce9fb9cb387a21
 # The only tree that pairs a native j1minilte_defconfig with the cm-14.1 kernel layout.
 fetch_shallow "https://github.com/Galaxy-J105F-Resources/kernel_samsung_sharkls.git" \
   "$REF/kernels/sharkls_g105f" cm-14.1 1df22d20250a335561f5f2bebd2fe95f62c2f4ee
@@ -177,6 +175,18 @@ if command -v sha256sum >/dev/null; then
   echo "$ALP_SHA  $ALP" | sha256sum -c - >/dev/null || fail "alpine checksum mismatch"
   say "  ok  alpine checksum ${ALP_SHA:0:12}"
 fi
+
+# 3G/SCX30G material must never be part of the live corpus: it is the wrong
+# platform for SM-J105F (see docs/research/lte-models.md section 6).
+for bad in "$REF/kernels/j1mini3g_ikgapirov" \
+           "$REF/pmaports/device/archived/device-samsung-j1mini3g" \
+           "$REF/pmaports/device/archived/linux-samsung-j1mini3g"; do
+  if [[ -e "$bad" ]]; then
+    if (( CHECK )); then fail "3G material present in the live corpus: ${bad#$REF/} (quarantined, see lte-models.md)"; fi
+    say "WARN 3G material present in live corpus: ${bad#$REF/} — move it to .reference_delete/"
+  fi
+done
+say "  ok  no 3G/SCX30G sources in the live corpus"
 
 say ""
 say "corpus: $(du -sh "$REF" 2>/dev/null | cut -f1) at $REF"

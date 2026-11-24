@@ -13,7 +13,7 @@
 | Kernel | vendor **3.10.65** only; SCX35L has **zero mainline support** (torvalds/linux v7.x has no `ARCH_SPRD` in `arch/arm/Kconfig`, no `arch/arm/boot/dts/sprd`, no `drivers/soc/sprd`; the arm64 `sprd/` support covers only sc9836/sc9860/sc9863a/ums512/ums9620 — and even the J3 port notes its custom timer must be ported first) | A modern-kernel port means writing clock/pinctrl/timer/PMIC/display drivers from scratch — rejected |
 | Blobs | camera/GPU/RIL/Wi-Fi firmware closed; `android_vendor_sprd` was DMCA'd off GitHub (local snapshot is precious) | Android track depends on a local blob snapshot; Linux track cannot have telephony |
 | Bootloader | S-Boot accepts unsigned images; Odin needs the literal `SEANDROIDENFORCE` string (present in our packer); KNOX bit trips permanently | Flashing works; no way to un-trip KNOX — accept it |
-| Variants | `j1minilte` ≠ `j1mini3g` (3G SC8830, different kernel platform) ≠ `j1minive3g` | Only SM-J105F evidence may be used as a base |
+| Variants | `j1minilte` ≠ `j1mini3g` (3G SC8830, different kernel platform) ≠ `j1minive3g` | Only SM-J105F evidence may be used as a base | Quarantined 3G sources (`.reference_delete/`, gitignored) must stay out of every build; only their recipe *shape* is documented in `docs/research/lte-models.md` §5.
 
 ## Options considered
 

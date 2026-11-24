@@ -1,5 +1,11 @@
 # Source landscape — j1minilte (SM-J105F/DS, SC9830I / SCX35L, sharkls)
 
+> **2026-11-24 — 3G material quarantined.** Any `j1mini3g` (SCX30G) source, config or
+> package referenced below was moved to `.reference_delete/` (gitignored); the paths no longer
+> exist in `reference/`. Do not rebuild or re-pin them for this device. Allow-list and hard rule:
+> `docs/research/lte-models.md`; reusable recipe shape: same file §5.
+
+
 **Verified:** 2026-10-23. Every row below was checked by `git ls-remote`, a shallow/blobless
 clone (`git ls-tree`, `git show HEAD:<path>`), a raw fetch, or a GitLab API call — never from
 memory. Anything not directly observed is marked `[INFERENCE]`.

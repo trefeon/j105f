@@ -11,6 +11,11 @@ This guide is the method. The two implementation tracks are still dossiers:
 14.1). Device evidence and pins live in `docs/research/resource-inventory.md` and the other
 dossiers under `docs/research/`.
 
+**Model lock:** this build targets `j1minilte` (LTE/SC9830I) only. The 3G sibling `j1mini3g`
+(SCX30G) is quarantined in `.reference_delete/` (gitignored) — never use its kernel, defconfig,
+DTBs or deviceinfo as a base. The allow-list and hard rule are in
+`docs/research/lte-models.md`; the reusable packaging shape is documented there.
+
 ---
 
 ## 0. Decide what "porting an OS" means

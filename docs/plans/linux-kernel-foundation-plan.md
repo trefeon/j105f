@@ -1,5 +1,11 @@
 # Linux Kernel Foundation Plan — Phase 3 (SM-J105F)
 
+> **2026-11-24 — 3G sources quarantined.** This is a historical plan. `j1mini3g` (SCX30G)
+> kernel/config/deviceinfo paths below no longer exist in `reference/`; they were moved to
+> `.reference_delete/` (gitignored). Only the recipe *shape* is retained in
+> `docs/research/lte-models.md` §5. Never use 3G material to build this LTE unit.
+
+
 **Status:** proposed (2026-08-11) · **Gate target:** partial Gate D (PRD) — a bootable kernel reaches a reproducible debug point with 3 recorded boot attempts (FR-6 evidence per milestone).
 
 Maps to: `docs/delivery/tasks.md` Phase 3 (Tasks 3.1–3.3) and `docs/plans/linux-port-plan.md` Phase 1 (kernel bring-up). This document is the executable detail for those; the port plan remains the strategic overview.

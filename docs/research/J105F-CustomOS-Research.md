@@ -1,5 +1,11 @@
 # SM-J105F (Galaxy J1 Mini) — Custom OS / Linux Research
 
+> **2026-11-24 — 3G material quarantined.** Any `j1mini3g` (SCX30G) source, config or
+> package referenced below was moved to `.reference_delete/` (gitignored); the paths no longer
+> exist in `reference/`. Do not rebuild or re-pin them for this device. Allow-list and hard rule:
+> `docs/research/lte-models.md`; reusable recipe shape: same file §5.
+
+
 **Date:** 2026-08-11
 **Status:** Research complete — groundwork for "port an existing project, then remake it"
 **Local reference copies:** all GitHub repos cloned into `reference/` (see inventory below)

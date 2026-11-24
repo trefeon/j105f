@@ -1,5 +1,11 @@
 # postmarketOS → Nura ecosystem dossier (`j1mini3g` → `j1minilte` port)
 
+> **2026-11-24 — 3G material quarantined.** Any `j1mini3g` (SCX30G) source, config or
+> package referenced below was moved to `.reference_delete/` (gitignored); the paths no longer
+> exist in `reference/`. Do not rebuild or re-pin them for this device. Allow-list and hard rule:
+> `docs/research/lte-models.md`; reusable recipe shape: same file §5.
+
+
 Research date **2026-10-23**. Every URL was fetched live with `curl` (status recorded); pins come
 from the GitLab REST API of the canonical host.
 

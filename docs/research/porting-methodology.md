@@ -1,5 +1,11 @@
 # Porting methodology — a stage-gated method for `j1minilte` (and any old phone)
 
+> **2026-11-24 — 3G material quarantined.** Any `j1mini3g` (SCX30G) source, config or
+> package referenced below was moved to `.reference_delete/` (gitignored); the paths no longer
+> exist in `reference/`. Do not rebuild or re-pin them for this device. Allow-list and hard rule:
+> `docs/research/lte-models.md`; reusable recipe shape: same file §5.
+
+
 **Date:** 2026-10-23 · **Status:** method dossier; no device writes performed · **Feeds:** ROADMAP stages
 E/G/H and both OS tracks.
 

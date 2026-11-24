@@ -1,6 +1,11 @@
 # Third-party reference material (cloned repos, re-clonable upstream)
 reference/
 
+# Quarantined 3G/SCX30G material — wrong platform for SM-J105F; kept locally
+# only so no build script or future agent can pick it up by accident.
+# Restore commands are in docs/research/lte-models.md §5.
+.reference_delete/
+
 # Downloaded tool binaries (Google platform-tools = adb/fastboot)
 tools/platform-tools/
 

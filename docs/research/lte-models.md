@@ -38,11 +38,11 @@ they are cross-checks, not replacements.
 | `napoleonlijun/android_kernel_samsung_j1minilte` | `master` | `9b41876e97c1b034a45a7d65efc24790af2b54fe` | 3.10.65 + `j1minilte_defconfig` (sha256 `15007c8e…`, 90,845 B); unmodified-looking mirror, cross-check only |
 | `NotNoelChannel/android_kernel_samsung_j1minilte` | `cm-14.1` | `3127397b465d223da75a51095e21d447a8d2d995` | 3.10.**94**, `j1minilte_defconfig` sha256 `d637bdb2…`, 90,905 B; differs from ours in 16 lines (F6); fallback if 3.10.65 fails bring-up |
 
-## 3. Explicitly excluded (not LTE-model)
+## 3. Explicitly excluded (not LTE-model — no 3G source kept in `reference/`)
 
 | Repo | Why excluded |
 |---|---|
-| `IKGapirov/android_kernel_samsung_j1mini3g` @ `6a377f7c43a84b578df39300dcce9fb9cb387a21` | 3G SC8830, `CONFIG_ARCH_SCX30G`, no j1minilte board DTS (only two panel dtsi). Kept in corpus solely as the *patch/config delta source* for the Nura recipe, never as this unit's kernel |
+| `IKGapirov/android_kernel_samsung_j1mini3g` @ `6a377f7c43a84b578df39300dcce9fb9cb387a21` | 3G SC8830, `CONFIG_ARCH_SCX30G`, no j1minilte board DTS. **Quarantined to `.reference_delete/j1mini3g_ikgapirov/` (gitignored) 2026-11-24**; no 3G source remains in `reference/`. Only the generic patch/config facts in §5 are retained |
 | `djeman/android_kernel_samsung_sharkls` @ `0502c3a5bb4de36a399ad075fe945761428a5a2c` | Same SoC family but **no** `j1minilte_defconfig` — cannot satisfy the LOS device triple |
 | `MayuriLabs/android_kernel_samsung_j1minilte` @ `5f4f03bd4899c988d33302b0d7543ff8a0694996` | LTE model but not stock: `CONFIG_LOCALVERSION="-JohnKernel_v1"`; mirror/cross-check only |
 | `QQQQWAS/android_device_samsung_j1mini3g` | 3G platform, 6-file tree |
@@ -58,3 +58,37 @@ they are cross-checks, not replacements.
    DTB, codename, touch node and kernel source with the LTE values above.
 3. Never flash from `reference/` — only from checksummed `device/evidence/build-artifacts/` bundles.
 4. Verify before every build: `bash tools/fetch-reference.sh --check`.
+
+## 5. Archived Nura recipe — facts kept, 3G sources quarantined (2026-11-24)
+
+The 3G clone (`reference/kernels/j1mini3g_ikgapirov`, 639 MB) and the two archived pmaports packages
+were moved to `.reference_delete/` (gitignored) so no later agent can accidentally build from them.
+The reusable **shape** of the archived recipe is recorded here instead; no 3G source, config or
+binary remains under `reference/`.
+
+| Kept fact | Value |
+|---|---|
+| Device package shape | `deviceinfo`: armv7, 480×800, `dev_touchscreen=/dev/input/event2`, `flash_method=heimdall-bootimg`, `bootimg_qcdt=true`, `append_seandroidenforce`, offsets base `0x0`/kernel `0x8000`/ramdisk `0x1000000`/second `0xf00000`/tags `0x100`, pagesize 2048, sparse samsung format 1 |
+| Kernel package shape | `downstreamkernel_prepare/package`, `dtbTool-sprd -s 2048 -p scripts/dtc/ -o arch/arm/boot/dt.img arch/arm/boot/dts/`, `make ARCH=arm CC=gcc`, `!strip !check !tracedeps pmb:cross-native` |
+| 7 reusable patches | `gcc7-give-up-on-ilog2`, `gcc8-fix-put-user`, `gcc10-extern_YYLOC`, `linux3.4-ARM-8933`, `linux3.4-fix-piggy.gzip.S`, `sprdfb-fix-swapped-colors`, `sprdfb-check-for-buffering` — all present as real files in `reference/pmaports/device/.shared-patches/linux/` (and `…/linux/sprd/`), not symlinks into the 3G package |
+| 7-patch set sha512 list | verified from the real files below, not the 3G package stub list |
+| Real patch file | SHA-512 (shared corpus) |
+|---|---|
+| `gcc7-give-up-on-ilog2-const-optimizations.patch` | `77eba606a71eafb36c32e9c5fe5e77f5e4746caac292440d9fb720763d766074a964db1c12bc76fe583c5d1a5c864219c59941f5e53adad182dbc70bf2bc14a7` |
+| `gcc8-fix-put-user.patch` | `197d40a214ada87fcb2dfc0ae4911704b9a93354b75179cd6b4aadbb627a37ec262cf516921c84a8b1806809b70a7b440cdc8310a4a55fca5d2c0baa988e3967` |
+| `gcc10-extern_YYLOC_global_declaration.patch` | `2b48f1bf0e3f70703d2cdafc47d5e615cc7c56c70bec56b2e3297d3fa4a7a1321d649a8679614553dde8fe52ff1051dae38d5990e3744c9ca986d92187dcdbeb` |
+| `linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch` | `9e3b067fa1b19ad02500c4fce1b6142051df3845c508e615788beb650c4f953683107ac2d80670c4e3df38f532e0e91060d2d13ec04c9ec985abd2dfa82e900b` |
+| `linux3.4-fix-piggy.gzip.S.patch` | `080745ca4ecaa804ee1df26ea81975ca93b74372e0c08322a6c481e97807495ae6ceb6cc77653afa24f9f2df45da8ebf8e5de6b06037fbb08e0279877ce42188` |
+| `sprd/sprdfb-fix-swapped-colors.patch` | `6836001b24508d413a059f19b0c6f6f547037f68886c22159ad51be91d1a089e3d1d9ed79c3c62724648df7f810cd81d96a83f4a34368b373524b649e5539656` |
+| `sprd/sprdfb-check-for-buffering.patch` | `e33ed12de874c1c8bc9231aea3b0389b18ee0ff804e39c0f47d9cbf657ea19015370d6114846c2d142fbdb88f472f0e65811c53b9b335feb8ae2f30dffdf4846` |
+| 3G config delta (F10) | Nura config `config-samsung-j1mini3g.armv7` sha256 `8f56fa7382b339e112ddd1253887dc1c803bb0f1b94e13edc949f43a07c234c6` (95633 B) vs IKG defconfig `85884d6d…` (95563 B); 21-line delta: LOCALVERSION, `ANDROID_PARANOID_NETWORK=n`, `DEVTMPFS=y` + `DEVTMPFS_MOUNT=n`, `DEVPTS_MULTIPLE_INSTANCES=y`, `DRM=y`, `HDMI=y` — historical fact only, never apply the 3G config |
+| Restoring the 3G sources | `git clone --depth 1 --branch cm-14.1 https://github.com/IKGapirov/android_kernel_samsung_j1mini3g.git reference/kernels/j1mini3g_ikgapirov` then `git -C reference/kernels/j1mini3g_ikgapirov checkout 6a377f7c43a84b578df39300dcce9fb9cb387a21`; package dirs via `git -C reference/pmaports sparse-checkout add device/archived/device-samsung-j1mini3g device/archived/linux-samsung-j1mini3g`. **Never do this for a build of this device.** |
+
+## 6. Hard rule for future agents
+
+`j1mini3g` = **3G SC8830, wrong platform**. Do not use its kernel tree, defconfig, DTBs,
+deviceinfo, config file or image as a base, patch source or flash candidate for SM-J105F. The
+only permitted legacy use of the archived recipe is the documented packaging *shape* and the
+7 generic patches that physically live in `device/.shared-patches/linux/`. Any action that
+references `reference/kernels/j1mini3g_ikgapirov/` or `device/archived/*-j1mini3g/` means the
+operator explicitly overrode this rule.
