@@ -73,6 +73,9 @@ Reproduce with `bash tools/fetch-reference.sh`; verify with `--check`. Paths are
 | `tools/heimdall/` | `Benjamin-Dobell/Heimdall` | `3997d5cc607e` | 13 MB | MIT | Samsung flashing tool source (Windows build required) |
 | `tools/heimdall-bin/heimdall-msys2-r180.3997d5c-3.pkg.tar.zst` | `mirror.msys2.org` | sha256 `e3baf9fd2f16…ff0b` | 271 KB | MIT | Verified Windows Heimdall build (MSYS2 UCRT64 package) |
 | `alpine/alpine-minirootfs-3.24.3-armv7.tar.gz` | `dl-cdn.alpinelinux.org` | sha256 `dc1ddfaf03ed…f0c1` | 3.18 MB | MIT (rootfs: mixed) | Baseline custom Linux userspace |
+| `kernels/j1minilte_teamwin/` | `TeamWin/android_kernel_samsung_j1minilte` @ `7641d1bbd0f8` | 131 MB | GPL-2.0 | LTE-model kernel mirror; defconfig sha256 `06c6226a…` |
+| `kernels/j1minilte_napoleonlijun/` | `napoleonlijun/android_kernel_samsung_j1minilte` @ `9b41876e97c1` | 131 MB | GPL-2.0 | LTE-model mirror; defconfig sha256 `15007c8e…` |
+| `kernels/j1minilte_notnoel/` | `NotNoelChannel/android_kernel_samsung_j1minilte` @ `3127397b465d` (`cm-14.1`) | 131 MB | GPL-2.0 | LTE fallback 3.10.94; defconfig sha256 `d637bdb2…` |
 
 Key hashes from the dump (byte-identical rollback reference, not the same file as the raw partition dump):
 `boot.img` `6246b521…22c1c`, `recovery.img` `9dad1ba1…08eb`, `boot/dt.img` `f29f3d90…042d`,

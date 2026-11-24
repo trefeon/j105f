@@ -5,7 +5,8 @@
 #   --check   verify local corpus against the pins below; download nothing
 #
 # Design notes:
-# - Every entry is pinned to a commit SHA or a branch+HEAD recorded on 2026-10-23.
+# - Every entry is pinned to a commit SHA or a branch+HEAD recorded on 2026-10-23;
+#   LTE-model-only additions (see docs/research/lte-models.md) were verified 2026-11-24.
 #   Branch tips move; a mismatch is reported, never silently accepted.
 # - Large trees use partial clone (--filter=blob:none) + sparse-checkout.
 # - Windows: `core.protectNTFS=false` is required for aux.c; the stock dump has one
@@ -140,6 +141,14 @@ fetch_commit "https://github.com/IKGapirov/android_kernel_samsung_j1mini3g.git" 
 # The only tree that pairs a native j1minilte_defconfig with the cm-14.1 kernel layout.
 fetch_shallow "https://github.com/Galaxy-J105F-Resources/kernel_samsung_sharkls.git" \
   "$REF/kernels/sharkls_g105f" cm-14.1 1df22d20250a335561f5f2bebd2fe95f62c2f4ee
+
+say "== LTE-model kernel mirrors (j1minilte only; verified 2026-11-24)"
+fetch_shallow "https://github.com/TeamWin/android_kernel_samsung_j1minilte.git" \
+  "$REF/kernels/j1minilte_teamwin" android-5.1 7641d1bbd0f8ed29595fd4d1fab55741f36bcd9a
+fetch_shallow "https://github.com/napoleonlijun/android_kernel_samsung_j1minilte.git" \
+  "$REF/kernels/j1minilte_napoleonlijun" master 9b41876e97c1b034a45a7d65efc24790af2b54fe
+fetch_shallow "https://github.com/NotNoelChannel/android_kernel_samsung_j1minilte.git" \
+  "$REF/kernels/j1minilte_notnoel" cm-14.1 3127397b465d223da75a51095e21d447a8d2d995
 
 say "== Android vendor trees (shallow, pinned; blob sources)"
 fetch_shallow "https://github.com/Galaxy-J105F-Resources/android_vendor_sprd.git" \

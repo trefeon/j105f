@@ -47,6 +47,7 @@ instead. GitLab (Nura) API was unlimited and used for all pmaports/Nura facts.
 | github.com/TeamWin/android_kernel_samsung_j1minilte | `android-5.1` `7641d1bbd0f8ed29595fd4d1fab55741f36bcd9a` | n/m (45,071 files) | GPL-2.0 | 3.10.65 + `j1minilte_defconfig`; upstream TWRP-side kernel mirror | yes |
 | github.com/NotNoelChannel/android_kernel_samsung_j1minilte | `cm-14.1` `3127397b465d223da75a51095e21d447a8d2d995` (3.10.**94**); `android-7.1` `56faf0b7…` (3.10.66); `android-6.0` `5642844b…`; `recovery` `4fdbbff8dd7a5db9ec1c6fc5cd9d943c76a92019` (3.10.65) | 142,653 KB | GPL-2.0 | j1minilte defconfig in every branch (3.10.94 one = 3516 lines; differs from ours in **16 lines** after CRLF strip: F2FS on, `IP_NF_MATCH_RPFILTER`/`IP6_NF_MATCH_RPFILTER` on, `PROC_AVC`/`ANDROID_RAM_CONSOLE`/`DEBUG_SECTION_MISMATCH` absent) | yes |
 | github.com/napoleonlijun/android_kernel_samsung_j1minilte | `master` `9b41876e97c1b034a45a7d65efc24790af2b54fe` | n/m | GPL-2.0 | 3.10.65 + `j1minilte_defconfig`; unmodified-looking mirror | yes |
+| github.com/TeamWin/android_kernel_samsung_j1minilte | `android-5.1` `7641d1bbd0f8ed29595fd4d1fab55741f36bcd9a` | n/m | GPL-2.0 | 3.10.65 + `j1minilte_defconfig`; upstream TWRP-side mirror; cloned + defconfig-hashed 2026-11-24, see `lte-models.md` | yes |
 | github.com/FlyingThaCat/kernel_samsung_j1minilte | — | — | — | `git ls-remote` returns **zero refs**; HTML carries a 404 marker. Dead/empty | yes (negative) |
 
 ### 3.2 Android device trees
