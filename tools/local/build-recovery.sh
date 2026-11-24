@@ -44,9 +44,6 @@ lunch omni_j1minilte-eng
 make -j"$(nproc)" recoveryimage
 
 OUT=$SRC/out/target/product/j1minilte
-python3 "$ROOT/tools/bootimg/patch_splash.py" \
-    "$OUT/recovery.img" "$ROOT/android/device/samsung/j1minilte/splash" --out "$OUT/recovery.img"
-
 cd "$OUT"
 SIZE=$(stat -c%s recovery.img)
 echo "recovery.img: $SIZE bytes (limit 16777216)"

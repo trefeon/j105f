@@ -33,7 +33,7 @@ Status: READY — awaiting device + user approval (FR-5: no flashing without exp
 | 2.10 | Backup + restore | full nandroid round-trip | |
 | 2.11 | Insufficient-space backup | clean error, no crash | |
 | 2.12 | Encryption | document behavior (expect unsupported on this device) | |
-| 2.13 | About screen | shows `0_j105f-custom` version | |
+| 2.13 | About screen | shows `3.7.0_9-0`, model `SM-J105F` | |
 
 ## 3. Rollback test (Task 2.3)
 

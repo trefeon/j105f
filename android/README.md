@@ -11,8 +11,8 @@ kernel/                             →  <checkout>/kernel/samsung/j1minilte/
 
 `device/samsung/j1minilte/` is the **recovery (TWRP 3.7.0_9, omni twrp-6.0 manifest)** device tree:
 `BoardConfig.mk`, `omni_j1minilte.mk`, `recovery/` (fstab, keymap), `prebuilt/dtb` (SPRD dt.img,
-329,728 B, byte-identical to the stock image), `splash/` (custom 480×800 splash sourced by
-`tools/bootimg/patch_splash.py`), `COPYING` (AGPL-3.0, NotNoelChannel base).
+329,728 B, byte-identical to the stock image), `COPYING` (AGPL-3.0, NotNoelChannel base). Branding is
+stock TWRP: `TW_DEVICE_VERSION := 0`, `PRODUCT_MODEL := SM-J105F`, upstream TWRP splash (no custom art).
 
 It is deliberately **not** a LineageOS device tree yet. Track A adds:
 

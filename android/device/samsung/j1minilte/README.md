@@ -1,15 +1,16 @@
-# Custom TWRP for Samsung Galaxy J1 Mini (SM-J105F, j1minilte)
+# TWRP for Samsung Galaxy J1 Mini (SM-J105F, j1minilte)
 
-Custom-built TWRP recovery for the Samsung SM-J105F (j1minilte / SC8830
-"sharkls" platform), built from source in this repository's
-`device/samsung/j1minilte` and `kernel/samsung/j1minilte` paths.
+TWRP recovery built from source for the Samsung SM-J105F (j1minilte / SC8830
+"sharkls" platform), using this repository's `android/device/samsung/j1minilte`
+and `kernel/samsung/j1minilte` trees.
 
 ## What this is
 
 - A TWRP device tree for `j1minilte`, derived from the
   [NotNoelChannel/twrp_device_samsung_j1minilte](https://github.com/NotNoelChannel/twrp_device_samsung_j1minilte)
   tree (branch `twrp-5.1`), with:
-  - custom version branding (`TW_DEVICE_VERSION := 0_j105f-custom`)
+  - stock TWRP branding (`TW_DEVICE_VERSION := 0`, `PRODUCT_MODEL := SM-J105F`,
+    upstream splash — no custom art, no author watermark)
   - kernel source committed in-tree (`kernel/samsung/j1minilte`,
     NotNoelChannel recovery kernel, 3.10.65, `j1minilte_defconfig`)
   - a CI workflow that builds entirely from this repository (the only
@@ -26,7 +27,7 @@ Custom-built TWRP recovery for the Samsung SM-J105F (j1minilte / SC8830
 | Model | SM-J105F (single-SIM; SM-J105F/DS dual-SIM variant shares board) |
 | SoC | Spreadtrum SC8830 (board SP8835EB) |
 | RAM | 1 GB |
-| Recovery partition | 20 MiB (20971520 bytes) |
+| Recovery partition | 16 MiB (16777216 bytes) |
 | Boot image | Android boot format, page 2048, `--dt` SPRD dt.img (5 DTBs) |
 
 ## Build

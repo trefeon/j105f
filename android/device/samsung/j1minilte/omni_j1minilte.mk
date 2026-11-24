@@ -28,5 +28,5 @@ $(call inherit-product, vendor/omni/config/common.mk)
 PRODUCT_NAME := omni_j1minilte
 PRODUCT_DEVICE := j1minilte
 PRODUCT_BRAND := Samsung
-PRODUCT_MODEL := Samsung Galaxy J1 Mini (custom TWRP)
+PRODUCT_MODEL := SM-J105F
 PRODUCT_MANUFACTURER := Samsung

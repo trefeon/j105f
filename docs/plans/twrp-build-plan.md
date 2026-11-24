@@ -35,6 +35,11 @@ The tree's workflow pins `ubuntu-20.04`; GitHub retired it **2025-04-15**. Adapt
 - Route C (fallback, no GitHub): build on a local Linux host (≥8 GB RAM) with the same recipe — slower to set up, more RAM headroom than the 1 GB VPS (**too small for an AOSP build**, confirmed infeasible).
 
 ## 4. "Make it ours" — customization list
+
+> **2026-11-24:** items 1–3 were built (D1/D3) and then reverted. The shipped recovery carries stock
+> TWRP branding only: `TW_DEVICE_VERSION := 0`, `PRODUCT_MODEL := SM-J105F`, upstream TWRP splash.
+> The list stays below as history.
+
 1. `TW_DEVICE_VERSION := 0_notnoelchannel` → e.g. `0_j105f-<tag>` — shows in TWRP About
 2. `PRODUCT_MODEL` in `omni_j1minilte.mk` → "Samsung Galaxy J1 Mini (custom)"
 3. **Splash logo** — TWRP ramdisk boot logo (replaces stock Samsung/blank splash): generate our own 480×800 PNG → build script copies into `bootable/recovery` splash or ramdisk
@@ -53,7 +58,7 @@ The tree's workflow pins `ubuntu-20.04`; GitHub retired it **2025-04-15**. Adapt
 - [ ] Push/fork device tree (Route A or B)
 - [ ] Adapt workflow: ubuntu-22.04, JDK8, swap 12 GB, (python2 if needed)
 - [ ] First CI run → recovery.img
-- [ ] Customize: TW_DEVICE_VERSION, PRODUCT_MODEL, splash, defaults → rebuild
+- [x] Customize: TW_DEVICE_VERSION, PRODUCT_MODEL, splash, defaults → rebuild *(built 2026-08-11/14; reverted to stock branding 2026-11-24)*
 - [ ] Generate Odin tar artifact
 - [ ] Flash on device, verify MTP/adb/touch/backup
 - [ ] Save new TWRP as `device/evidence/stock-backup/recovery_custom.img` + commit

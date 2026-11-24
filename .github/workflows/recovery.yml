@@ -98,15 +98,6 @@ jobs:
           lunch omni_j1minilte-eng
           make -j$(nproc --all) recoveryimage
 
-      - name: Patch custom splash (D3)
-        run: |
-          cd ~/TWRP/out/target/product/j1minilte
-          python3 $GITHUB_WORKSPACE/tools/bootimg/patch_splash.py \
-            recovery.img \
-            $GITHUB_WORKSPACE/android/device/samsung/j1minilte/splash \
-            --out recovery.img
-          ls -la recovery.img
-
       - name: Package Odin tar
         run: |
           cd ~/TWRP/out/target/product/j1minilte
