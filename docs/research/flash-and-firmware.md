@@ -188,6 +188,41 @@ System/Data backup on the PC. Last resort = four-file XID package via Odin (`BL`
 - **Signature enforcement**: Odin accepts an unsigned locally built recovery here (community 3.0.3-0 and this project's builds) `[V locally]`. Whether `KERNEL` enforces signature ("SECURE FAIL: KERNEL") is **unverified** — hence `boot_stock.img` on the microSD before any boot experiment.
 - No AVB/`vbmeta` partition exists (5.1.1 era) `[I from partition map]`.
 
+## Toolchain acquisition state — 2026-11-24
+
+Re-checked live; artifacts staged in `reference/tools/flash/` (gitignored) with `SHA256SUMS`, and
+fetchable/verifiable via `bash tools/fetch-flash-tools.sh [--check]`.
+
+| Artifact | Source | Bytes | SHA-256 | State |
+|---|---|---|---|---|
+| Odin 3.13.1 | `samsungodin.com/download/Odin3_v3.13.1.zip` | 3,517,718 | `056aeb87…4933` | staged; byte-identical to the 2026-10-23 fetch |
+| Odin 3.14.4 | `odindownload.com/download/Odin3_v3.14.4.zip` | 4,510,482 | `a8822952…d515` | staged; mirror repack (odinrom.com prints MD5 `096537A9…` for its own repack) |
+| Samsung USB driver 1.9.5.0 | `developer.samsung.com/SDP/file/a2fcaf64-7aa3-49f7-b06f-9e646590d528` | 37,216,544 | `0ecc9e47…4a20` | staged; NSIS, `ss_bus.inf` + `ss_mdm*.inf` with `.cat` dated 2026-04-23 |
+| Heimdall MSYS2 r180.3997d5c-3 | `mirror.msys2.org/mingw/ucrt64/…-any.pkg.tar.zst` | 270,792 | `e3baf9fd…ff0b` | staged; `heimdall.exe` 497,805 B `cef77a0e…8dff`, PE32+ x86-64, libusb-1.0.30 compiled in |
+| Zadig 2.9 (libwdi v1.5.1) | `github.com/pbatard/libwdi/releases/download/v1.5.1/zadig-2.9.exe` | 5,334,088 | `4ecaa95d…039b` | staged; only for the Heimdall/WinUSB path |
+| platform-tools 37.0.1 | `dl.google.com/android/repository/platform-tools-latest-windows.zip` | 8,044,989 | — | already vendored at `tools/platform-tools/` |
+| Bifrost 2.1.4 | `github.com/zacharee/Bifrost/releases` (windows-amd64 zip) | 110,848,760 | — | not fetched; FUS downloader, no IMEI needed |
+| TWRP 3.0.3-0 fallback tar | `androidfilehost.com/?fid=529152257862700709` | 14.7 MB | MD5 `49dec756…89b1` | not fetched (AFH session); optional |
+| Stock firmware `J105FXXS0ARD2` | SamFrew download page | 1,003,482,272 | none published | not fetched; free path is browser/captcha-gated |
+
+**Filter finding.** `samsungodin.com/download/Odin3_v3.13.1.zip` comes back on this workstation as a
+197,169 B HTML block page (Kaspersky web filter), not the zip. The same URL fetched from an unfiltered
+host returns exactly 3,517,718 B / `056aeb87…4933` — the artifact recorded on 2026-10-23. The fetch
+script detects the HTML case, deletes the file, and points at the copy-from-elsewhere route.
+
+**Driver link resolved.** The 2026-10-23 page gated the driver behind JS; the current page exposes
+`/SDP/file/a2fcaf64-…` directly, so the driver is checksummable (row above).
+
+**SamFrew free download** answers a non-browser client with a 5.6 KB page and no `.zip` link — firmware
+acquisition stays manual (browser, 1 GB) or through Bifrost's FUS path.
+
+**Odin 3.13.1 inner files** (for comparing repacks): `Odin3 v3.13.1.exe` 3,172,864 B `370b9750…0d35`,
+`SS_DL.dll` 2,555,904 B `66047e60…4d2c`. The exe's embedded PDB path reads `Odin3 v3.07.pdb` (Samsung
+never renamed the project), so that string is not a version indicator.
+
+**Linux path** (no Zadig, no Samsung driver): Ubuntu 24.04.5 offers `heimdall-flash 2.0.2-2build2`
+(candidate checked on a 24.04.5 host); MSYS2/Arch track the grimler fork at 2.2.2.
+
 ## Procedure checklists
 
 ### A. Pre-flight (before touching anything)
@@ -244,7 +279,8 @@ System/Data backup on the PC. Last resort = four-file XID package via Odin (`BL`
 3. **Heimdall upstream** (`git.sr.ht/~grimler/Heimdall`, refs and release paths) — **502** throughout.
    2.2.2 existence is established indirectly (Arch 2.2.2-1, Repology, MSYS2 r180).
 4. **Odin 3.10.7** — no live verified host (samsungodin stops at 3.13.1; SamMobile 410; SamFrew none).
-5. **Samsung USB driver file** — version verified, direct `.zip` URL is JS-gated and unchecksummable.
+5. **Samsung USB driver file** — resolved 2026-11-24: direct `/SDP/file/a2fcaf64-…` URL and SHA-256 in
+   *Toolchain acquisition state* above (the 2026-10-23 page gated it behind JS).
 6. **XDA threads** (4108247, 3762572, 3545821) — 403 to scripts; browser-only.
 7. **postmarketOS wiki** — 301s to `wiki.nura.eco` behind an Anubis proof-of-work challenge, including
    `api.php`. Not usable as evidence.
