@@ -68,9 +68,9 @@
 
 [dhcp.wlan0.domain]: [kingsignalAPP.com]
 
-[dhcp.wlan0.gateway]: [192.168.10.1]
+[dhcp.wlan0.gateway]: [<LAN-GATEWAY>]
 
-[dhcp.wlan0.ipaddress]: [192.168.10.7]
+[dhcp.wlan0.ipaddress]: [<LAN-IP>]
 
 [dhcp.wlan0.leasetime]: [172800]
 
@@ -86,7 +86,7 @@
 
 [dhcp.wlan0.roaming]: [0]
 
-[dhcp.wlan0.server]: [192.168.10.1]
+[dhcp.wlan0.server]: [<LAN-GATEWAY>]
 
 [dhcp.wlan0.vendorInfo]: [\001\004CTC0]
 
@@ -454,7 +454,7 @@
 
 [ril.sales_code]: [XID]
 
-[ril.serialnumber]: [RR8J30F45KL]
+[ril.serialnumber]: [<REDACTED>]
 
 [ril.servicestate]: [3,3]
 
@@ -488,7 +488,7 @@
 
 [ro.boot.emmc_checksum]: [3]
 
-[ro.boot.serialno]: [42002714ee5ac300]
+[ro.boot.serialno]: [<REDACTED>]
 
 [ro.boot_recovery]: [unknown]
 
@@ -832,7 +832,7 @@
 
 [ro.security.vpnpp.ver]: [1.4]
 
-[ro.serialno]: [42002714ee5ac300]
+[ro.serialno]: [<REDACTED>]
 
 [ro.setupwizard.mode]: [OPTIONAL]
 

@@ -5,11 +5,14 @@ Single repository for bringing a 2016 `j1minilte` unit back into service on two 
 | Track | Target | State |
 |---|---|---|
 | **Recovery** (shared foundation) | Custom TWRP 3.7.0_9 built from committed source | Built + CI-verified, **not yet flashed** |
-| **A — Android** | Newest realistically buildable Android for this SoC: LineageOS 14.1 (7.1.2), ceiling LineageOS 15.1 (8.1) | Port not started (no ROM ever shipped for this model) |
-| **B — Linux** | postmarketOS / Alpine on the Samsung 3.10 vendor kernel | Kernel + debug initramfs `boot.img` built and CI-verified; **not yet flashed** |
+| **A — Android** | Newest realistically buildable Android for this SoC: LineageOS 14.1 (7.1.2), ceiling LineageOS 15.1 (8.1) | **One unofficial 14.1 build exists (2022-10-24, exact PDA `J105FXXS0ARD2`)**; its device-tree/kernel/blob stack is reconstructed and pinned in `docs/research/source-landscape.md`. Not rebuilt here yet |
+| **B — Linux** | Nura (formerly postmarketOS) / Alpine on the Samsung 3.10 vendor kernel | Kernel + debug initramfs `boot.img` built and CI-verified; **not yet flashed**. Port research complete: `docs/research/pmos-ecosystem.md` |
 
 Device facts, evidence and the reasoning behind these targets: `docs/device/identity.md`,
-`docs/adr/0002-os-track.md`.
+`docs/adr/0002-os-track.md`. Research dossiers (OS options, Nura/pmaports, source landscape, flash
+tooling, build hosts, porting method) live under `docs/research/`; the how-to guide is
+`docs/guides/01-porting-an-os-to-a-phone.md`. The pinned third-party corpus is reproducible with
+`tools/fetch-reference.sh`.
 
 **Variant scope — 4G/LTE only.** This repository targets the **SM-J105F/DS** (`j1minilte`,
 **SC9830I LTE**, dual-SIM), verified from the unit's own `getprop`: `ro.chipname=SC9830I`,
@@ -88,3 +91,8 @@ The authoritative execution state is `docs/delivery/ROADMAP.md` plus `docs/deliv
 Summary as of consolidation: Stages A–D complete (evidence, rollback set, CI, 16 MiB gates, branding,
 splash), E/F device validation and release pending a human-supervised flash, G (kernel foundation) and
 H1 (debug initramfs) complete in CI, H2–H11 device-gated.
+**2026-10-23 research pass (no device):** OS decision refreshed (Nura downstream first, LineageOS 14.1
+second), pinned 6 GB reference corpus, flash/firmware and build-host dossiers, verified Nura kernel
+patches apply cleanly, measured a full 3.10 `zImage` build on a local Linux host (856 s), and wrote the
+porting guide under `docs/guides/`. Nothing was flashed; the next physical step remains the human-gated
+TWRP flash.

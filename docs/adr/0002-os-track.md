@@ -19,8 +19,8 @@
 
 | Option | Verdict |
 |---|---|
-| **A — Custom Android ROM (LineageOS)** | **Chosen (primary).** Android 7.1.2 is the highest any public build reached for this exact model (unofficial 2022 LineageOS 14.1, link now dead); Android 8.1 is the source-only ceiling (sharkls 15.1 trees boot on the same-SoC J3, never built for j1minilte). Android 9+ impossible. |
-| **B — postmarketOS / Alpine Linux on the 3.10 vendor kernel** | **Chosen (parallel track).** The only realistic "full Linux": Alpine userspace, console + fbdev first. pmOS's `samsung-j1mini3g` port — **archived 2026-06-22**, kernel 3.10.106 fork, wiki status *booting=yes* with screen/touch/USB-net working, `flash_rootfs` failing at 17 % (`flash_kernel` works; `--android-recovery-zip` fallback) — is a recipe reference; its kernel is `SCX30G`, not this unit. A `samsung-j1minilte` wiki page exists with `bootimg`/`qcdt` facts but **no merged device/kernel package**. |
+| **A — Custom Android ROM (LineageOS)** | **Chosen (primary).** Android 7.1.2 is the highest any public build reached for this exact model: a `lineage-14.1-20221024-UNOFFICIAL-j1minilte.zip` was published for firmware `J105FXXS0ARD2` (the PDA on this unit); its download shortlink no longer resolves (403 on 2026-10-23), but the source stack is reconstructible — device tree `cm-14.1` skeleton + `cm-13.0` content, `sharkls-common`, G105F 3.10.100 kernel with a native `j1minilte_defconfig`, three vendor trees (`docs/research/source-landscape.md`). Android 8.1 is the source-only ceiling. Android 9+ impossible. |
+| **B — Nura (postmarketOS) / Alpine Linux on the 3.10 vendor kernel** | **Chosen (parallel track).** The only realistic "full Linux": Alpine userspace, console + fbdev first. postmarketOS renamed to **Nura** in 2026-09; tool and packages are unchanged (`pmbootstrap`, `postmarketos-*`). Its `samsung-j1mini3g` port — **archived 2026-06-22**, kernel 3.10.106 fork, wiki status *booting=yes* with screen/touch/USB-net working, `flash_rootfs` failing at 17 % (`flash_kernel` works; `--android-recovery-zip` fallback) — is a recipe reference; its kernel is `SCX30G`, not this unit. A `samsung-j1minilte` wiki page exists with `bootimg`/`qcdt` facts but **no merged device/kernel package**. |
 | **C — mainline Linux (modern, 6.x/7.x)** | Rejected. No SCX35L support at all; would be a multi-year driver project. |
 | **D — Linux chroot on stock Android** (Termux/UserLAnd/LinuxDeploy/Droidspaces) | Not a goal, but kept as the zero-risk fallback if flashing is ever unsafe. Cannot replace the OS. |
 | **E — Halium / Ubuntu Touch** | Stretch only. Halium 7.1 was proven on the same platform (J3), but 1 GB RAM and the audio HAL make it a worse bet than B for the same effort. |
@@ -32,7 +32,7 @@
 2. **Track A (Android)** targets **LineageOS 14.1 (7.1.2)** first — the highest version actually
    demonstrated on this model — with 8.1 as an explicit, evidence-gated ceiling attempt. Plan:
    `docs/plans/android-rom-port-plan.md`.
-3. **Track B (Linux)** targets **postmarketOS/Alpine on the vendor 3.10 kernel**, console + framebuffer
+3. **Track B (Linux)** targets **Nura (postmarketOS)/Alpine on the vendor 3.10 kernel**, console + framebuffer
    + touch + storage + USB networking first, Xorg after. Plan: ROADMAP Stage H, `docs/plans/linux-port-plan.md`.
    Only the *packaging shape* is inherited from the archived `samsung-j1mini3g` package (deviceinfo
    fields, `heimdall-bootimg`, SPRD `dt.img`, `SEANDROIDENFORCE`, sparse Samsung format); kernel,

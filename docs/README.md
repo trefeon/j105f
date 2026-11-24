@@ -8,7 +8,8 @@
 | `delivery/execution-log.md` | One line per executed task: date, done/blocked, result, artifact. |
 | `delivery/tasks.md`, `delivery/e1-flash-commands.md` | Historical task detail and the exact flash/rollback commands. |
 | `plans/` | Per-track plans: TWRP build, Linux kernel foundation, Linux port, modem capture, device test checklist. |
-| `research/` | Findings: model identification, ecosystem inventory, driver bring-up, OS landscape. |
+| `guides/` | **How-to guide:** the full stage-gated OS-porting method. Start at `guides/README.md`; the custom-Linux and LineageOS tracks are still dossiers under `research/`. |
+| `research/` | Findings: model identification, OS landscape, Nura/pmaports ecosystem, source landscape, flash/firmware, build hosts, porting method, pinned resource inventory. |
 | `build-reports/` | CI investigations and milestone evidence (kernel M3.x). |
 
 Conventions: the ROADMAP wins over every other document when they disagree; historical commits/CI

@@ -35,7 +35,7 @@ Total to add: **12 partitions, 33,554,432 B (32 MiB)**.
 
 ## Capture commands (from TWRP, phone connected — HUMAN GATE)
 
-Run from the existing TWRP 3.7.0 session (Method A, same pattern as A2). `$adb` = `D:\github_repo\Project_J105F\tools\platform-tools\adb.exe` (or `C:\adb\adb.exe`).
+Run from the existing TWRP 3.7.0 session (Method A, same pattern as A2). `$adb` = `<repo>\tools\platform-tools\adb.exe`.
 
 ```powershell
 # per partition, to the microSD first (survives reboots), then pull to PC

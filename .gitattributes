@@ -1,0 +1,9 @@
+# Line-ending policy.
+#
+# The vendor 3.10 kernel must be LF everywhere: its kconfig shell scripts break on
+# CRLF (arch/arm/Kconfig:99: unknown option "With"), and a Windows worktree is
+# otherwise checked out CRLF against an LF index.
+* text=auto
+kernel/** text eol=lf
+*.sh text eol=lf
+*.py text eol=lf

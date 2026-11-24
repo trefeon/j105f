@@ -32,7 +32,7 @@ The tree's workflow pins `ubuntu-20.04`; GitHub retired it **2025-04-15**. Adapt
 ## 3. Hosting routes (need ONE GitHub account for all)
 - **Route A (recommended): fork `NotNoelChannel/twrp_device_samsung_j1minilte` → adapt workflow (fix runner/JDK/swap) → Actions → download `recovery.img` artifact.** Full control, reproducible.
 - **Route B: fork `DevCat3/Personl_TWRP_Builder`** (or `Abudfu/Action-Recovery-Builder`): parameterized workflow, TWRP 3.3.1–3.7.1 dropdowns, **Samsung TAR output (Odin-flashable)**, MD5, releases. Set `DEVICE_TREE_URL` = NotNoelChannel tree (or our fork), `twrp-5.1`, device path `device/samsung/j1minilte`, name `j1minilte`, makefile `omni_j1minilte`.
-- Route C (fallback, no GitHub): build on a beefy local Linux (acerblue/acergrey if ≥8 GB RAM) with the same recipe — slower to set up, more RAM headroom than vps-01 (892 MB — **too small for AOSP build**, confirmed infeasible).
+- Route C (fallback, no GitHub): build on a local Linux host (≥8 GB RAM) with the same recipe — slower to set up, more RAM headroom than the 1 GB VPS (**too small for an AOSP build**, confirmed infeasible).
 
 ## 4. "Make it ours" — customization list
 1. `TW_DEVICE_VERSION := 0_notnoelchannel` → e.g. `0_j105f-<tag>` — shows in TWRP About

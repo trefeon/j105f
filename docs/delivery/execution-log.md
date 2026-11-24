@@ -43,3 +43,18 @@ the git history, and CI run metadata on 2026-08-12.
 **2026-08-14 correction (G3/kernel bundle):** `kernel-m31/` flash bundle re-synced from pre-gate run `31519306192` (boot.img `a8603c2d`, commit `05c7b22a`) to the gate-verified HEAD run `31524994372` (boot.img `671a576a`, commit `f31f090a`). Kernel source identical (top-3 commits workflow-only); dt.img unchanged (`f29f3d90…`).
 
 **2026-10-23 (repository consolidation — ADR-0001, ADR-0002):** the three repositories (`Project_J105F`, `twrp_j1minilte`, `linux-samsung-j1minilte`) became one: `android/`, `kernel/`, `linux/`, `device/`, `docs/`, `tools/`, `.github/workflows/{recovery,kernel}.yml`. The 3.10 kernel tree now exists once and feeds both workflows (recovery: `j1minilte_defconfig`; Linux: `j1minilte_linux_defconfig`). Workflows are path-filtered. Doc paths rewritten; historical SHAs/run IDs kept as evidence. The 13 NTFS-invalid kernel paths (`drivers/gpu/drm/nouveau/.../aux.c` + 12 case variants) are committed from fetched blobs and marked skip-worktree in the Windows index. Track A (Android) scoped in `docs/plans/android-rom-port-plan.md` — LOS 14.1 primary, 8.1 gated ceiling, 9+ rejected; Track B evidence updated with the archived pmOS `samsung-j1mini3g` package (kernel 3.10.106, heimdall-bootimg, `flash_rootfs` 17 % quirk) and the confirmed absence of SC9830 mainline support. Device state unchanged: **nothing flashed**.
+
+**2026-10-23 (research + guides pass, no phone):** six parallel research lanes and a pinned corpus fetch.
+OS decision refreshed in `docs/research/os-options.md`: **Nura (postmarketOS) downstream port first**,
+LineageOS 14.1 second (telephony-bearing). New dossiers: `source-landscape.md` (device tree `f7d0398`,
+`sharkls-common` `d0b1da8`, G105F kernel `1df22d2`, vendor blobs `f674dd4`/`087a549`/`8cae5ca`,
+LineageOS manifest `3053abb`), `pmos-ecosystem.md` (Nura rename; pmbootstrap 3.12.1 `7d23010`; pmaports
+`c7940da7`; j1mini3g recipe + 17 % heimdall failure), `flash-and-firmware.md` (TWRP `dd` proven, heimdall
+unproven, Odin fallback), `build-environment.md` (measured kernel build), `porting-methodology.md`,
+`resource-inventory.md` (6.3 GB corpus, every pin verified). Guide:
+`docs/guides/01-porting-an-os-to-a-phone.md` (the custom-Linux and LineageOS tracks remain dossier
+material: `pmos-ecosystem.md` §4, `source-landscape.md` §5.2). Verified: all seven Nura SPRD/GCC kernel
+patches `git apply --check` clean against `kernel/` (on the local Linux build host); `make -j4 zImage`
+856 s, zImage 5,208,936 B `9e671935…`; pmbootstrap
+re-pinned to tag 3.12.1. Corrected repo claims: an unofficial 2022 LineageOS 14.1 build exists for this
+exact PDA (README, ADR-0002). No device access; nothing flashed.

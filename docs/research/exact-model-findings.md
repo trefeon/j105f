@@ -66,7 +66,8 @@ this hardware.
 
 ## Unknowns / gaps (for a 100% pin)
 
-- No IMEI in the dump (`ril.serialnumber=RR8J30F45KL` + `ro.serialno` only; EFS image gitignored).
+- No IMEI in the dump (`ril.serialnumber` + `ro.serialno` present, values redacted in the committed
+  evidence; EFS image gitignored).
 - No stock-kernel IKCONFIG (exact stock `.config` inferred, not extracted).
 - No `l_modem` partition image yet — modem FW version beyond baseband `J105FXXU0APG2` unverified.
 - No PIT capture (ROADMAP A3 outstanding — phone in Download Mode needed).

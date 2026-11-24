@@ -8,7 +8,7 @@ Never flash without the human's explicit "yes" in the same session (ROADMAP hard
 Run from TWRP (device connected, `adb devices` shows `recovery`):
 
 ```powershell
-$adb = "D:\github_repo\j105f\tools\platform-tools\adb.exe"
+$adb = "$PWD\tools\platform-tools\adb.exe"
 & $adb shell "getprop ro.product.device; getprop ro.build.PDA"
 ```
 
@@ -39,7 +39,7 @@ Provenance: run `31801523361`, source commit `634cb96c` (branding `0_j105f-custo
 ### Method A — from the existing TWRP (preferred, least destructive)
 
 ```powershell
-$adb = "D:\github_repo\j105f\tools\platform-tools\adb.exe"
+$adb = "$PWD\tools\platform-tools\adb.exe"
 & $adb push device/evidence/build-artifacts/twrp-j1minilte/recovery.img /external_sd/recovery_new.img
 & $adb shell "dd if=/external_sd/recovery_new.img of=/dev/block/mmcblk0p21 bs=4096"
 # verify the flash read-back (optional but cheap):
@@ -70,7 +70,7 @@ Odin version: ______ (fill after the successful flash)
 
 ```powershell
 # images already on the microSD at /external_sd/backup/ (or re-push from PC):
-$adb = "D:\github_repo\j105f\tools\platform-tools\adb.exe"
+$adb = "$PWD\tools\platform-tools\adb.exe"
 & $adb push device/evidence/stock-backup/recovery_stock.img /external_sd/recovery_stock.img
 & $adb shell "dd if=/external_sd/recovery_stock.img of=/dev/block/mmcblk0p21 bs=4096"
 & $adb shell "dd if=/dev/block/mmcblk0p21 bs=4096 2>/dev/null | sha256sum"
