@@ -91,7 +91,7 @@ Key hashes from the dump (byte-identical rollback reference, not the same file a
 | Docker | — | Windows host | **not installed** |
 | Local Linux build host | Ubuntu 24.04, 2C/4T, 16 GB RAM, ~300 GB free, Docker, sudo | on the desk | verified 2026-10-23 |
 | Cloud VPS | Ubuntu 7.0-azure, 2 vCPU, 887 MB RAM, 14 GB free | remote | verified; cross-compile only |
-| GitHub Actions | `ubuntu-22.04`, manual dispatch | `.github/workflows/` | wire-ready; not dispatched during research |
+| GitHub Actions | `ubuntu-22.04`, manual dispatch | `.github/workflows/` | recovery + kernel green (TWRP run `45354249022` 2026-11-24) |
 | `arm-eabi-4.8` | android-5.1.1_r38 | fetched by CI/local scripts | proven for 3.10 kernel |
 | Nura kernel toolchain | GCC 12+ with archived patches (**INFERENCE**) | local build host via pmbootstrap | to provision |
 
@@ -105,10 +105,10 @@ the local Linux build host or CI.
 | Asset | Why needed | Status |
 |---|---|---|
 | Stock firmware `J105FXXS0ARD2` (Odin tar) | last-resort restore, PIT, modem/EFS reference | **not local.** XID build `XID-J105FXXS0ARD2-20180508100607.zip`, 1,003,482,272 B; free-but-slow path at SamFrew, no published checksum. Newest XID build = the one already on the phone. See `docs/research/flash-and-firmware.md` |
-| Odin 3.13.1 | Samsung-native flash path | **not gathered** — the mirror responds, but the workstation's Kaspersky web filter substituted an HTML block page (191,499 B, not a zip). Documented hash from the research pass: sha256 `056aeb87…4933` |
+| Odin 3.13.1 | Samsung-native flash path | **gathered 2026-11-24** — `reference/tools/flash/odin/Odin3_v3.13.1_samsungodin.zip`, sha256 `056aeb87…4933` (fetched from an unfiltered host; the local Kaspersky filter serves an HTML block page here) |
 | Heimdall Windows binary | `print-pit`, scripted flash | **gathered**: MSYS2 UCRT64 package, sha256 `e3baf9fd…ff0b`; source also cloned. Requires WinUSB (Zadig), which disables Odin until reverted |
 | PIT (`heimdall print-pit`) | authoritative partition geometry (ROADMAP A3) | **outstanding** — requires Download Mode + USB |
-| Samsung USB driver | Windows device enumeration in Download Mode | version 1.9.5.0 confirmed; direct file link is JS-gated — install from the vendor page |
+| Samsung USB driver | Windows device enumeration in Download Mode | **gathered 2026-11-24**: `reference/tools/flash/samsung-usb-driver/Samsung_USB_Driver_v1.9.5.0.zip`, sha256 `0ecc9e47…4a20` (direct `/SDP/file/a2fcaf64-…` link, NSIS with signed `.inf`/`.cat`) |
 | Wi-Fi firmware | `sprdwl` bring-up | **acquired** in the stock dump: `system/etc/firmware/sc2331_fw.bin`, `sc2331_fdl.bin` |
 | 2022 LineageOS 14.1 ROM | reference build for the Android track | documented (`lineage-14.1-20221024-UNOFFICIAL-j1minilte.zip`, PDA `J105FXXS0ARD2`), build stack reconstructed from source; download shortlink now returns **403** — not downloaded |
 | Historic TWRP 3.0.3-0 tar | last-resort recovery | `TWRP_3.0.3-0_SM-J105-V2.tar` (14.7 MB, MD5 `49dec756…`) on AndroidFileHost; not downloaded |
