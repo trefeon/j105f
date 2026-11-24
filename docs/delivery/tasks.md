@@ -93,9 +93,9 @@ Produce a reproducible, genuinely custom recovery and then a bootable Linux/pmOS
 ### Task 2.1: Identity and licensing
 
 - [x] Replace inherited branding with the project/device identity. *(commit 2d63e410)*
-- [x] Set `TW_DEVICE_VERSION` and `PRODUCT_MODEL` consistently. *(0_j105f-custom; "Samsung Galaxy J1 Mini (custom TWRP)")*
+- [x] Set `TW_DEVICE_VERSION` and `PRODUCT_MODEL` consistently. *(0_j105f-custom; "Samsung Galaxy J1 Mini (custom TWRP)")* — **reverted 2026-11-24 (D4):** stock `TW_DEVICE_VERSION := 0` / `PRODUCT_MODEL := SM-J105F`
 - [x] Preserve and audit upstream license notices. *(COPYING AGPL-3.0 preserved; README credits NotNoelChannel)*
-- [x] Add a build-info screen or file identifying the source commit. *(BUILD_INFO.txt artifact ✓; `0_j105f-custom` + custom PRODUCT_MODEL verified inside the final image ramdisk, commit 2d63e410)*
+- [x] Add a build-info screen or file identifying the source commit. *(BUILD_INFO.txt artifact ✓; `0_j105f-custom` + custom PRODUCT_MODEL verified inside the final image ramdisk, commit 2d63e410 — branding strings since reverted, BUILD_INFO.txt is the surviving provenance record)*
 
 ### Task 2.2: Recovery functionality
 

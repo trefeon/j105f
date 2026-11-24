@@ -43,7 +43,7 @@ See `docs/research/os-options.md`.
 | efs / prodnv | `device/evidence/stock-backup/efs.img`, `prodnv.img` | `a8c00675…`, `3bb43e39…` | local only; never commit |
 | TWRP full backup | `device/evidence/stock-backup/TWRP/` | — | System + Data, pulled from microSD |
 | Rollback procedure | `device/evidence/stock-backup/README.md` | — | exact `dd` commands |
-| Custom TWRP | `device/evidence/build-artifacts/twrp-j1minilte/recovery.img` | `3651e105…bf4a`, source `634cb96c` | splash build, 11.87 MB, under 16 MiB gate |
+| Custom TWRP | `device/evidence/build-artifacts/twrp-j1minilte/recovery.img` | `94e9a4ad…d5ad104`, source `8bd33c52` | stock TWRP branding (debranded 2026-11-24), 11.89 MB, under 16 MiB gate |
 | Linux debug boot.img | `device/evidence/build-artifacts/kernel-m31/linux-boot-j1minilte/boot.img` | `e3125677…41b2`, source `f649d5a5` | H1 busybox shell, serial + fbcon |
 | Stock DTB set | `device/dtb/stock/dtb_00..04.dtb` | packed `dt.img` = `f29f3d90…042d` | 5× SP8835EB, byte-gate for every build |
 
